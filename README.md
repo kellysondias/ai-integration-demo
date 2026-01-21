@@ -48,10 +48,14 @@ An Express application that integrates with OpenAI or Google Gemini for chat.
 
 3. **Configure environment variables:**
    - Go to **Settings** → **Environment Variables**
-   - Add:
-     - `USE_OPEN_AI`: `true` or `false`
-     - `OPEN_AI_API_KEY`: your OpenAI key (if USE_OPEN_AI=true)
-     - `GOOGLE_GENAI_API_KEY`: your Google key (if USE_OPEN_AI=false)
+   - Add **at least one** of these API keys:
+     - **OpenAI Configuration:**
+       - `USE_OPEN_AI`: `true`
+       - `OPEN_AI_API_KEY`: your OpenAI API key (get it from https://platform.openai.com/api-keys)
+     - **Google Gemini Configuration:**
+       - `USE_OPEN_AI`: `false`
+       - `GOOGLE_GENAI_API_KEY`: your Google API key (get it from https://ai.google.dev/)
+   - **Optional Model Configuration:**
      - `OPENAI_MODEL`: model to use (default: `gpt-4`)
      - `GEMINI_MODEL`: model to use (default: `gemini-2.5-flash`)
    - Click "Save"
@@ -61,7 +65,33 @@ An Express application that integrates with OpenAI or Google Gemini for chat.
    - Click "Redeploy" on the latest deployment
    - Wait for the build to complete
 
-Done! Your application will be available at `https://your-project.vercel.app`
+## Troubleshooting
+
+### 500 Internal Server Error on Vercel
+
+If you get a 500 error when calling the API, the most common cause is **missing API keys**:
+
+**Solution:**
+1. Make sure you've added the required API keys to Vercel Environment Variables:
+   - For OpenAI: Add `USE_OPEN_AI=true` and `OPEN_AI_API_KEY=your-key`
+   - For Gemini: Add `USE_OPEN_AI=false` and `GOOGLE_GENAI_API_KEY=your-key`
+
+2. After adding the variables, redeploy:
+   - Go to **Deployments** in Vercel
+   - Click "Redeploy" on the latest deployment
+
+3. Test the API with:
+   ```bash
+   curl -X POST https://your-project.vercel.app/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{"prompt": "Hello, how are you?"}'
+   ```
+
+### API Keys
+
+- **OpenAI**: Get free API key at https://platform.openai.com/api-keys
+- **Google Gemini**: Get free API key at https://ai.google.dev/
+
 
 ## Endpoints
 
